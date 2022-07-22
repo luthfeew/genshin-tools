@@ -7,19 +7,100 @@
     <title>Genshin Tools</title>
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <script src="https://kit.fontawesome.com/b69de5aa18.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Hello World
-            </h1>
-            <p class="subtitle">
-                My first website with <strong>Bulma</strong>!
+    <section class="hero is-small pl-2 py-1">
+        <div class="hero-body has-text-centered-mobile">
+            <p class="title">
+                Genshin Tools
             </p>
         </div>
     </section>
+
+    <section class="hero has-background-white-ter is-halfheight" id="page_loading">
+        <div class="hero-body">
+            <div class="">
+                <p class="title">
+                    Page loading...
+                </p>
+                <p class="subtitle">
+                    <progress class="progress is-info" max="100"></progress>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-white-ter is-hidden" id="view_feature">
+        <div class="container is-fluid">
+            <h1 class="title is-5 mb-2">Genshin Impact</h1>
+            <div class="buttons">
+                <button class="button is-rounded" id="x_uncensor">Uncensor</button>
+            </div>
+            <h1 class="title is-5 mb-2">Grasscutter</h1>
+            <div class="buttons">
+                <button class="button is-rounded" id="x_artifact" disabled>Artifact Command Generator (Soon™)</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-white-ter is-hidden" id="view_main">
+        <div class="container is-fullhd">
+            <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                <ul>
+                    <li><a id="goto_feature">Home</a></li>
+                    <li class="is-active"><a aria-current="page" id="breadcrumb1"></a></li>
+                    <li class="is-active"><a aria-current="page" id="breadcrumb2"></a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <div class="box">
+                        <h1 class="title">Text</h1>
+                        <h2 class="subtitle">Input</h2>
+                        <textarea class="textarea" id="x_input"></textarea>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box">
+
+
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box">
+                        <h1 class="title">Text</h1>
+                        <h2 class="subtitle">Output</h2>
+                        <textarea class="textarea" id="x_output" readonly></textarea>
+                        <div class="field has-addons has-addons-centered mt-4">
+                            <p class="control">
+                                <button class="button is-rounded" id="copy">
+                                    <span class="icon is-small">
+                                        <i class="fa-solid fa-copy"></i>
+                                    </span>
+                                    <span>Copy</span>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero is-small pl-2 py-1">
+        <div class="hero-body has-text-centered-mobile">
+            <p>
+                <strong>Genshin Tools</strong> &#8211; Web Application.
+                <br>
+                Powered by <a href="https://pyscript.net" target="_blank">PyScript</a>.
+            </p>
+        </div>
+    </section>
+
+    <py-script src="./main.py"></py-script>
 </body>
 
 </html>
