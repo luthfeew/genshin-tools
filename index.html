@@ -9,9 +9,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <script src="https://kit.fontawesome.com/b69de5aa18.js" crossorigin="anonymous"></script>
+    <style>
+        .main {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .section {
+            flex: 1;
+        }
+    </style>
 </head>
 
-<body>
+<body class="main">
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p class="title">
@@ -20,28 +31,44 @@
         </div>
     </section>
 
-    <section class="hero has-background-white-ter is-halfheight" id="page_loading">
-        <div class="hero-body">
-            <div class="">
-                <p class="title">
-                    Page loading...
-                </p>
-                <p class="subtitle">
-                    <progress class="progress is-info" max="100"></progress>
-                </p>
-            </div>
-        </div>
+    <section class="section has-background-white-ter" id="page_loading">
+        <p class="title">
+            Page loading...
+        </p>
+        <p class="subtitle">
+            <progress class="progress is-info" max="100"></progress>
+        </p>
     </section>
 
     <section class="section has-background-white-ter is-hidden" id="view_feature">
         <div class="container is-fluid">
             <h1 class="title is-5 mb-2">Genshin Impact</h1>
             <div class="buttons">
-                <button class="button is-rounded" id="x_uncensor">Uncensor</button>
+                <button class="button is-rounded" id="x_uncensor">
+                    <span class="icon">
+                        <i class="fa-solid fa-spell-check"></i>
+                    </span>
+                    <span>Uncensor</span>
+                </button>
             </div>
             <h1 class="title is-5 mb-2">Grasscutter</h1>
             <div class="buttons">
-                <button class="button is-rounded" id="x_artifact" disabled>Artifact Command Generator (Soon™)</button>
+                <button class="button is-rounded" id="x_artifact" disabled>
+                    <span class="icon">
+                        <i class="fa-solid fa-terminal"></i>
+                    </span>
+                    <span>Artifact Command Generator (Soon™)</span>
+                </button>
+            </div>
+            <h1 class="title is-5 mb-2">Support</h1>
+            <div class="buttons">
+                <a class="button is-rounded" href="https://www.youtube.com/channel/UCgsIuiTqRUI_98Rp_19Tp0g"
+                    target="_blank">
+                    <span class="icon">
+                        <i class="fa-brands fa-youtube"></i>
+                    </span>
+                    <span>YouTube</span>
+                </a>
             </div>
         </div>
     </section>
@@ -50,7 +77,7 @@
         <div class="container is-fullhd">
             <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                 <ul>
-                    <li><a id="goto_feature">Home</a></li>
+                    <li><a id="goto_feature">Tools</a></li>
                     <li class="is-active"><a aria-current="page" id="breadcrumb1"></a></li>
                     <li class="is-active"><a aria-current="page" id="breadcrumb2"></a></li>
                 </ul>
@@ -66,6 +93,9 @@
                 <div class="column">
                     <div class="box">
 
+                        <div class="is-hidden" id="view_x_uncensor">
+
+                        </div>
 
                     </div>
                 </div>
