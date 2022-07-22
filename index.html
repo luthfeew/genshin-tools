@@ -31,12 +31,10 @@
         </div>
     </section>
 
-    <section class="section has-background-white-ter" id="page_loading">
+    <section class="section has-background-white-ter is-align-items-center is-flex" id="page_loading">
         <p class="title">
             Page loading...
-        </p>
-        <p class="subtitle">
-            <progress class="progress is-info" max="100"></progress>
+            <progress class="progress is-info mt-3" max="100"></progress>
         </p>
     </section>
 
@@ -78,12 +76,12 @@
                 </a>
                 <a class="button is-rounded" href="https://paimon.moe/" target="_blank">
                     <span class="icon">
-                        <i class="fa-solid fa-circle-info"></i>
+                        <i class="fa-solid fa-globe"></i>
                     </span>
                     <span>Paimon.moe</span>
                 </a>
             </div>
-            <h1 class="title is-5 mb-2">Support</h1>
+            <h1 class="title is-5 mb-2">Support me</h1>
             <div class="buttons">
                 <a class="button is-rounded" href="https://www.youtube.com/channel/UCgsIuiTqRUI_98Rp_19Tp0g"
                     target="_blank">
@@ -98,57 +96,46 @@
 
     <section class="section has-background-white-ter is-hidden" id="view_main">
         <div class="container is-fullhd">
-            <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+            <nav class="breadcrumb has-arrow-separator is-centered" aria-label="breadcrumbs">
                 <ul>
                     <li><a id="goto_feature">Tools</a></li>
                     <li class="is-active"><a aria-current="page" id="breadcrumb1"></a></li>
                     <li class="is-active"><a aria-current="page" id="breadcrumb2"></a></li>
                 </ul>
             </nav>
-            <div class="columns">
-                <div class="column">
+
+            <div class="columns is-centered" id="view_x_uncensor">
+                <div class="column is-half">
                     <div class="box">
                         <h1 class="title">Text</h1>
-                        <h2 class="subtitle">Input</h2>
+                        <h2 class="subtitle">Input text to uncensor in-game</h2>
                         <textarea class="textarea" id="x_input"></textarea>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="box">
-
-                        <div class="is-hidden" id="view_x_uncensor">
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="box">
-                        <h1 class="title">Text</h1>
-                        <h2 class="subtitle">Output</h2>
-                        <textarea class="textarea" id="x_output" readonly></textarea>
-                        <div class="field has-addons has-addons-centered mt-4">
+                        <div class="field has-addons has-addons-centered mt-5">
                             <p class="control">
-                                <button class="button is-rounded" id="copy">
+                                <button class="button is-link is-rounded" id="proc_copy">
                                     <span class="icon is-small">
                                         <i class="fa-solid fa-copy"></i>
                                     </span>
-                                    <span>Copy</span>
+                                    <span>Process & copy</span>
                                 </button>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p>
-                <strong>Genshin Tools</strong> &#8211; Web Application.
+                <strong>Genshin Tools</strong> &#8211; Web Application. <i class="fa-solid fa-code"></i> with <i
+                    class="fa-solid fa-heart"></i> by <strong>TahuBulat</strong>.
                 <br>
-                Powered by <a href="https://pyscript.net" target="_blank">PyScript</a>.
+
+                Powered by <a href="https://bulma.io/" target="_blank">Bulma</a> + <a href="https://pyscript.net"
+                    target="_blank">PyScript</a> + <a href="https://fontawesome.com/" target="_blank">FontAwesome</a>.
             </p>
         </div>
     </section>
