@@ -10,8 +10,7 @@ x_uncensor = Element("x_uncensor").element
 x_artifact = Element("x_artifact").element
 
 view_x_uncensor = Element("view_x_uncensor").element
-# x_uncensor_n = Element("x_uncensor_n").element
-# x_uncensor_ext = Element("x_uncensor_ext").element
+x_uncensor_ext = Element("x_uncensor_ext").element
 
 goto_feature = Element("goto_feature").element
 breadcrumb1 = Element("breadcrumb1").element
@@ -23,32 +22,32 @@ proc_copy = Element("proc_copy").element
 uncensor_dict = {
     "A": "А",
     "a": "а",
-    # "B": "В",
     "E": "Е",
     "e": "е",
-    # "K": "К",
-    # "M": "М",
-    # "H": "Н",
     "O": "О",
     "o": "о",
-    # "P": "Р",
-    # "p": "р",
-    # "C": "С",
-    # "c": "с",
-    # "T": "Т",
-    # "y": "у",
-    # "X": "Х",
-    # "x": "х",
     "I": "І",
     "i": "і",
 }
 
-# uncensor_dict_ext = {
-#     "r": "г",
-#     "b": "Ь",
-#     "V": "Ѵ",
-#     "v": "ѵ",
-# }
+uncensor_dict_ext = {
+    "B": "В",
+    "K": "К",
+    "M": "М",
+    "H": "Н",
+    "P": "Р",
+    "p": "р",
+    "C": "С",
+    "c": "с",
+    "T": "Т",
+    "y": "у",
+    "X": "Х",
+    "x": "х",
+    "r": "г",
+    "b": "Ь",
+    "V": "Ѵ",
+    "v": "ѵ",
+}
 
 
 def loading_done():
@@ -81,8 +80,14 @@ def x_uncensor_click(event):
 
 
 def proc_copy_click(event):
-    for key, value in uncensor_dict.items():
-        x_input.value = x_input.value.replace(key, value)
+    if x_uncensor_ext.checked:
+        ext = dict(uncensor_dict)
+        ext.update(uncensor_dict_ext)
+        for key in ext:
+            x_input.value = x_input.value.replace(key, ext[key])
+    else:
+        for key in uncensor_dict:
+            x_input.value = x_input.value.replace(key, uncensor_dict[key])
     x_input.select()
     document.execCommand("copy")
 
