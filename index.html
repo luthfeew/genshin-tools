@@ -8,9 +8,9 @@
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-    <!-- <py-env>
+    <py-env>
         - numpy
-    </py-env> -->
+    </py-env>
     <script src="https://kit.fontawesome.com/b69de5aa18.js" crossorigin="anonymous"></script>
     <style>
         .main {
@@ -29,14 +29,14 @@
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p class="title">
-                Genshin Tools
+                # Genshin Tools #
             </p>
         </div>
     </section>
 
     <section class="section has-background-white-ter is-align-items-center is-flex" id="page_loading">
         <p class="title">
-            Page loading...
+            Page loading, please wait UwU...
             <progress class="progress is-info mt-3" max="100"></progress>
         </p>
     </section>
@@ -52,7 +52,8 @@
                     <span>Uncensor</span>
                 </button>
             </div>
-            <h1 class="title is-5 mb-2">Grasscutter (private server)</h1>
+            <h1 class="title is-5 mb-2"><a href="https://github.com/Grasscutters/Grasscutter"
+                    target="_blank">Grasscutter</a> (private server)</h1>
             <div class="buttons">
                 <button class="button is-rounded" id="x_artifact">
                     <span class="icon">
@@ -61,7 +62,8 @@
                     <span>Artifact Generator</span>
                 </button>
             </div>
-            <h1 class="title is-5 mb-2">Guides</h1>
+            <hr>
+            <h1 class="title is-5 mb-2">Misc</h1>
             <div class="buttons">
                 <a class="button is-rounded"
                     href="https://docs.google.com/spreadsheets/d/1gNxZ2xab1J6o1TuNVWMeLOZ7TPOqrsf3SshP5DLvKzI/htmlview#"
@@ -82,6 +84,18 @@
                         <i class="fa-solid fa-globe"></i>
                     </span>
                     <span>Paimon.moe</span>
+                </a>
+                <a class="button is-rounded" href="https://enka.network/" target="_blank">
+                    <span class="icon">
+                        <i class="fa-solid fa-globe"></i>
+                    </span>
+                    <span>Enka.Network</span>
+                </a>
+                <a class="button is-rounded" href="https://www.reddit.com/r/Genshin_Impact_Leaks/" target="_blank">
+                    <span class="icon">
+                        <i class="fa-brands fa-reddit"></i>
+                    </span>
+                    <span>r/Genshin_Impact_Leaks</span>
                 </a>
             </div>
             <h1 class="title is-5 mb-2">Support me</h1>
@@ -135,11 +149,12 @@
                 <div class="column is-two-thirds">
                     <div class="box">
 
-                        <article class="message is-warning">
-                            <div class="message-body">
-                                This section is under development. Thank you UwU.
-                            </div>
-                        </article>
+                        <h1 class="title has-text-centered">Artifact Command Generator</h1>
+                        <h2 class="subtitle has-text-centered">
+                            Create artifact with custom stats
+                        </h2>
+
+                        <hr>
 
                         <div class="columns is-vcentered">
                             <div class="column">
@@ -148,7 +163,7 @@
                                     <div class="column">
                                         <div class="select is-rounded is-loading">
                                             <select id="x_art_name">
-                                                <option value="">-</option>
+                                                <option value="0">-</option>
                                             </select>
                                         </div>
                                     </div>
@@ -158,7 +173,7 @@
                                     <div class="column">
                                         <div class="select is-rounded is-loading">
                                             <select id="x_art_part">
-                                                <option value="">-</option>
+                                                <option value="0">-</option>
                                             </select>
                                         </div>
                                     </div>
@@ -168,7 +183,7 @@
                                     <div class="column">
                                         <div class="select is-rounded is-loading">
                                             <select id="x_art_main">
-                                                <option value="">-</option>
+                                                <option value="0">-</option>
                                             </select>
                                         </div>
                                     </div>
@@ -183,10 +198,10 @@
                                     </div>
                                 </div>
                                 <div class="columns is-vcentered">
-                                    <div class="column is-4 has-text-right-tablet"><strong>Stars</strong></div>
+                                    <div class="column is-4 has-text-right-tablet"><strong>Star</strong></div>
                                     <div class="column is-4">
                                         <input class="input is-rounded" type="number" value="5" min="4" max="5"
-                                            id="x_art_stars">
+                                            id="x_art_star">
                                     </div>
                                 </div>
                             </div>
@@ -196,48 +211,52 @@
 
                         <div class="columns is-centered is-vcentered mb-0">
                             <div class="column is-2 has-text-right-tablet"><strong>CRIT Rate</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_cr"></div>
                             <div class="column is-2 has-text-right-tablet"><strong>CRIT DMG</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_cd"></div>
                         </div>
                         <div class="columns is-centered is-vcentered mb-0">
                             <div class="column is-2 has-text-right-tablet"><strong>Energy Recharge</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_er"></div>
                             <div class="column is-2 has-text-right-tablet"><strong>Elemental Mastery</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_em"></div>
                         </div>
                         <div class="columns is-centered is-vcentered mb-0">
                             <div class="column is-2 has-text-right-tablet"><strong>ATK %</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_atk"></div>
                             <div class="column is-2 has-text-right-tablet"><strong>ATK</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_atkf">
+                            </div>
                         </div>
                         <div class="columns is-centered is-vcentered mb-0">
                             <div class="column is-2 has-text-right-tablet"><strong>HP %</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_hp"></div>
                             <div class="column is-2 has-text-right-tablet"><strong>HP</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_hpf">
+                            </div>
                         </div>
                         <div class="columns is-centered is-vcentered">
                             <div class="column is-2 has-text-right-tablet"><strong>DEF %</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_def"></div>
                             <div class="column is-2 has-text-right-tablet"><strong>DEF</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="text"></div>
+                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_deff">
+                            </div>
                         </div>
 
                         <hr>
 
                         <div class="buttons has-addons is-centered">
-                            <button class="button is-rounded is-warning is-light">Clear [sub stat]</button>
-                            <button class="button is-rounded is-danger is-light">Clear [all]</button>
+                            <button class="button is-rounded is-warning is-light" id="x_art_clear_sub">Clear [sub
+                                stat]</button>
+                            <button class="button is-rounded is-danger is-light" id="x_art_clear_all">Clear
+                                [all]</button>
                         </div>
-
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                                <input class="input is-rounded" type="text" value="/gart " readonly>
+                                <input class="input is-rounded" type="text" id="x_art_command" readonly>
                             </div>
                             <div class="control">
-                                <a class="button is-rounded is-link is-light">
+                                <a class="button is-rounded is-link is-light" id="x_art_generate">
                                     <span class="icon is-small">
                                         <i class="fa-solid fa-copy"></i>
                                     </span>
@@ -245,6 +264,13 @@
                                 </a>
                             </div>
                         </div>
+
+                        <article class="message is-danger is-hidden" id="x_art_error">
+                            <div class="message-body" id="x_art_error_info">
+                                <strong>Invalid Artifact</strong>. Please select <a>Artifact</a>, <a>Part</a>,
+                                <a>Main Stat</a> and <a>Max 4 Substat</a>.
+                            </div>
+                        </article>
 
                     </div>
                 </div>

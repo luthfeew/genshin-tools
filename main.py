@@ -1,5 +1,8 @@
+import math
+import numpy as np
 from pyodide import create_proxy
 from js import document
+from collections import Counter
 
 page_loading = Element("page_loading").element
 
@@ -18,7 +21,23 @@ x_art_name = Element("x_art_name").element
 x_art_part = Element("x_art_part").element
 x_art_main = Element("x_art_main").element
 x_art_level = Element("x_art_level").element
-x_art_stars = Element("x_art_stars").element
+x_art_star = Element("x_art_star").element
+x_art_cr = Element("x_art_cr").element
+x_art_cd = Element("x_art_cd").element
+x_art_er = Element("x_art_er").element
+x_art_em = Element("x_art_em").element
+x_art_atk = Element("x_art_atk").element
+x_art_atkf = Element("x_art_atkf").element
+x_art_hp = Element("x_art_hp").element
+x_art_hpf = Element("x_art_hpf").element
+x_art_def = Element("x_art_def").element
+x_art_deff = Element("x_art_deff").element
+x_art_clear_sub = Element("x_art_clear_sub").element
+x_art_clear_all = Element("x_art_clear_all").element
+x_art_generate = Element("x_art_generate").element
+x_art_command = Element("x_art_command").element
+x_art_error = Element("x_art_error").element
+x_art_error_info = Element("x_art_error_info").element
 
 goto_feature = Element("goto_feature").element
 breadcrumb1 = Element("breadcrumb1").element
@@ -202,11 +221,136 @@ def x_uncensor_process_click(event):
     document.execCommand("copy")
 
 
+def find_nearest(array, value, command):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return [array[idx], command[idx]]
+
+
+def generate_artifact(value, stat, command):
+    output = []
+
+    if value:
+        raw = float(value)
+        div = raw / max(stat)
+
+        x = str(div).split(".")[1][:2]
+        if int(x) < 8:
+            med = raw / round(div)
+        else:
+            med = raw / int(math.ceil(div))
+
+        while div > 1:
+            f = find_nearest(stat, med, command)
+            output.append(f[1])
+            raw = raw - f[0]
+            div = div - 1
+        while raw >= (min(stat) - 1):
+            f = find_nearest(stat, raw, command)
+            output.append(f[1])
+            raw = raw - f[0]
+
+    output.sort(reverse=True)
+    return output
+
+
+def x_art_generate_click(event):
+    x_art_error.classList.add("is-hidden")
+
+    if (
+        int(x_art_name.value) == 0
+        or int(x_art_part.value) == 0
+        or int(x_art_main.value) == 0
+    ):
+        x_art_error.classList.remove("is-hidden")
+        x_art_command.value = ""
+        return
+
+    raw_cmd = []
+    raw_cmd.append(generate_artifact(x_art_cr.value, CR, CR_CMD))
+    raw_cmd.append(generate_artifact(x_art_cd.value, CD, CD_CMD))
+    raw_cmd.append(generate_artifact(x_art_er.value, ER, ER_CMD))
+    raw_cmd.append(generate_artifact(x_art_em.value, EM, EM_CMD))
+    raw_cmd.append(generate_artifact(x_art_atk.value, ATK, ATK_CMD))
+    raw_cmd.append(generate_artifact(x_art_atkf.value, FLAT_ATK, FLAT_ATK_CMD))
+    raw_cmd.append(generate_artifact(x_art_hp.value, HP, HP_CMD))
+    raw_cmd.append(generate_artifact(x_art_hpf.value, FLAT_HP, FLAT_HP_CMD))
+    raw_cmd.append(generate_artifact(x_art_def.value, DEF, DEF_CMD))
+    raw_cmd.append(generate_artifact(x_art_deff.value, FLAT_DEF, FLAT_DEF_CMD))
+
+    raw_cmd = [x for x in raw_cmd if x]
+
+    if len(raw_cmd) > 4:
+        x_art_error.classList.remove("is-hidden")
+        x_art_command.value = ""
+        return
+
+    flat_list = []
+    for sublist in raw_cmd:
+        for item in sublist:
+            flat_list.append(item)
+
+    cmd = "/gart "
+    cmd += (
+        str(
+            int(x_art_name.value)
+            + int(x_art_part.value)
+            + (int(x_art_star.value) * 100)
+        )
+        + " "
+    )
+    cmd += str(x_art_main.value) + " "
+
+    count = dict(Counter(flat_list))
+    for key, value in count.items():
+        if value > 1:
+            cmd += str(key) + "," + str(value) + " "
+        else:
+            cmd += str(key) + " "
+
+    cmd += str(int(x_art_level.value) + 1)
+
+    x_art_command.value = cmd
+    x_art_command.select()
+    document.execCommand("copy")
+
+
+def x_art_clear_sub_click(event):
+    clear_artifact_substat()
+
+
+def x_art_clear_all_click(event):
+    x_art_name.selectedIndex = 0
+    x_art_part.selectedIndex = 0
+    x_art_main.selectedIndex = 0
+    x_art_star.value = 5
+    x_art_level.value = 20
+    clear_artifact_substat()
+
+
+def clear_artifact_substat():
+    x_art_cr.value = ""
+    x_art_cd.value = ""
+    x_art_er.value = ""
+    x_art_em.value = ""
+    x_art_atk.value = ""
+    x_art_atkf.value = ""
+    x_art_hp.value = ""
+    x_art_hpf.value = ""
+    x_art_def.value = ""
+    x_art_deff.value = ""
+    x_art_error.classList.add("is-hidden")
+    x_art_command.value = ""
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
     x_uncensor.addEventListener("click", create_proxy(x_uncensor_click))
     x_uncensor_process.addEventListener("click", create_proxy(x_uncensor_process_click))
     x_artifact.addEventListener("click", create_proxy(x_artifact_click))
+    x_art_generate.addEventListener("click", create_proxy(x_art_generate_click))
+    x_art_clear_sub.addEventListener("click", create_proxy(x_art_clear_sub_click))
+    x_art_clear_all.addEventListener("click", create_proxy(x_art_clear_all_click))
     loading_done()
 
 
