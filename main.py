@@ -14,6 +14,11 @@ x_uncensor_ext = Element("x_uncensor_ext").element
 x_uncensor_process = Element("x_uncensor_process").element
 
 view_x_artifact = Element("view_x_artifact").element
+x_art_name = Element("x_art_name").element
+x_art_part = Element("x_art_part").element
+x_art_main = Element("x_art_main").element
+x_art_level = Element("x_art_level").element
+x_art_stars = Element("x_art_stars").element
 
 goto_feature = Element("goto_feature").element
 breadcrumb1 = Element("breadcrumb1").element
@@ -171,6 +176,17 @@ def x_uncensor_click(event):
 def x_artifact_click(event):
     show_main(x_artifact)
     view_x_artifact.classList.remove("is-hidden")
+
+    for x, y in ARTIFACT_SET.items():
+        x_art_name.innerHTML += f"<option value='{x}'>{y}</option>"
+    for x, y in ARTIFACT_PART.items():
+        x_art_part.innerHTML += f"<option value='{x}'>{y}</option>"
+    for x, y in MAIN_STAT.items():
+        x_art_main.innerHTML += f"<option value='{x}'>{y}</option>"
+
+    x_art_name.parentElement.classList.remove("is-loading")
+    x_art_part.parentElement.classList.remove("is-loading")
+    x_art_main.parentElement.classList.remove("is-loading")
 
 
 def x_uncensor_process_click(event):

@@ -107,7 +107,7 @@
                 </ul>
             </nav>
 
-            <div class="columns is-centered is-hidden" id="view_x_uncensor">
+            <div class="columns is-centered" id="view_x_uncensor">
                 <div class="column is-half">
                     <div class="box">
                         <h1 class="title">Text</h1>
@@ -147,7 +147,7 @@
                                     <div class="column has-text-right-tablet"><strong>Artifact</strong></div>
                                     <div class="column">
                                         <div class="select is-rounded is-loading">
-                                            <select>
+                                            <select id="x_art_name">
                                                 <option value="">-</option>
                                             </select>
                                         </div>
@@ -157,7 +157,7 @@
                                     <div class="column has-text-right-tablet"><strong>Part</strong></div>
                                     <div class="column">
                                         <div class="select is-rounded is-loading">
-                                            <select>
+                                            <select id="x_art_part">
                                                 <option value="">-</option>
                                             </select>
                                         </div>
@@ -167,7 +167,7 @@
                                     <div class="column has-text-right-tablet"><strong>Main Stat</strong></div>
                                     <div class="column">
                                         <div class="select is-rounded is-loading">
-                                            <select>
+                                            <select id="x_art_main">
                                                 <option value="">-</option>
                                             </select>
                                         </div>
@@ -178,13 +178,15 @@
                                 <div class="columns is-vcentered mb-0">
                                     <div class="column is-4 has-text-right-tablet"><strong>Level</strong></div>
                                     <div class="column is-4">
-                                        <input class="input is-rounded" type="number" value="20" min="1" max="20">
+                                        <input class="input is-rounded" type="number" value="20" min="1" max="20"
+                                            id="x_art_level">
                                     </div>
                                 </div>
                                 <div class="columns is-vcentered">
                                     <div class="column is-4 has-text-right-tablet"><strong>Stars</strong></div>
                                     <div class="column is-4">
-                                        <input class="input is-rounded" type="number" value="5" min="4" max="5">
+                                        <input class="input is-rounded" type="number" value="5" min="4" max="5"
+                                            id="x_art_stars">
                                     </div>
                                 </div>
                             </div>
@@ -226,8 +228,8 @@
                         <hr>
 
                         <div class="buttons has-addons is-centered">
-                            <button class="button is-rounded is-warning is-light" disabled>Clear [sub stat]</button>
-                            <button class="button is-rounded is-danger is-light" disabled>Clear [all]</button>
+                            <button class="button is-rounded is-warning is-light">Clear [sub stat]</button>
+                            <button class="button is-rounded is-danger is-light">Clear [all]</button>
                         </div>
 
                         <div class="field has-addons">
