@@ -69,6 +69,8 @@ uncensor_dict_ext = {
     "x": "х",
     "V": "Ѵ",
     "v": "ѵ",
+    # experimental
+    "u": "υ",
 }
 
 CR = [3.9, 3.5, 3.1, 2.7]
