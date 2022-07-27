@@ -197,6 +197,10 @@ def x_artifact_click(event):
     show_main(x_artifact)
     view_x_artifact.classList.remove("is-hidden")
 
+    x_art_name.innerHTML = f"<option value='0'>-</option>"
+    x_art_part.innerHTML = f"<option value='0'>-</option>"
+    x_art_main.innerHTML = f"<option value='0'>-</option>"
+
     for x, y in ARTIFACT_SET.items():
         x_art_name.innerHTML += f"<option value='{x}'>{y}</option>"
     for x, y in ARTIFACT_PART.items():
