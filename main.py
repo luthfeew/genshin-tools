@@ -199,18 +199,48 @@ def x_artifact_click(event):
 
     x_art_name.innerHTML = f"<option value='0'>-</option>"
     x_art_part.innerHTML = f"<option value='0'>-</option>"
-    x_art_main.innerHTML = f"<option value='0'>-</option>"
 
     for x, y in ARTIFACT_SET.items():
         x_art_name.innerHTML += f"<option value='{x}'>{y}</option>"
     for x, y in ARTIFACT_PART.items():
         x_art_part.innerHTML += f"<option value='{x}'>{y}</option>"
-    for x, y in MAIN_STAT.items():
-        x_art_main.innerHTML += f"<option value='{x}'>{y}</option>"
 
     x_art_name.parentElement.classList.remove("is-loading")
     x_art_part.parentElement.classList.remove("is-loading")
     x_art_main.parentElement.classList.remove("is-loading")
+
+
+def x_art_part_change(event):
+    x_art_main.innerHTML = f"<option value='0'>-</option>"
+
+    match int(x_art_part.value):
+        case 40:
+            key = [10001]
+        case 20:
+            key = [10003]
+        case 50:
+            key = [10002, 10004, 10006, 10007, 10008]
+        case 10:
+            key = [
+                10002,
+                10004,
+                10006,
+                10008,
+                15008,
+                15009,
+                15010,
+                15011,
+                15012,
+                15013,
+                15014,
+                15015,
+            ]
+        case 30:
+            key = [10002, 10004, 10006, 10008, 13007, 13008, 12009]
+
+    for x, y in MAIN_STAT.items():
+        if x in key:
+            x_art_main.innerHTML += f"<option value='{x}'>{y}</option>"
 
 
 def x_uncensor_process_click(event):
@@ -356,6 +386,7 @@ def main():
     x_art_generate.addEventListener("click", create_proxy(x_art_generate_click))
     x_art_clear_sub.addEventListener("click", create_proxy(x_art_clear_sub_click))
     x_art_clear_all.addEventListener("click", create_proxy(x_art_clear_all_click))
+    x_art_part.addEventListener("change", create_proxy(x_art_part_change))
     loading_done()
 
 
