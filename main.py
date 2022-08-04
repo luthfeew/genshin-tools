@@ -336,18 +336,18 @@ def x_art_generate_click(event):
             + int(x_art_part.value)
             + (int(x_art_star.value) * 100)
         )
+        + " lv"
+        + str(int(x_art_level.value))
         + " "
+        + str(x_art_main.value)
     )
-    cmd += str(x_art_main.value) + " "
 
     count = dict(Counter(flat_list))
     for key, value in count.items():
         if value > 1:
-            cmd += str(key) + "," + str(value) + " "
+            cmd += " " + str(key) + "," + str(value)
         else:
-            cmd += str(key) + " "
-
-    cmd += str(int(x_art_level.value) + 1)
+            cmd += " " + str(key)
 
     x_art_command.value = cmd
     x_art_command.select()
