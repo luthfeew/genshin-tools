@@ -197,8 +197,9 @@ def x_artifact_click(event):
     show_main(x_artifact)
     view_x_artifact.classList.remove("is-hidden")
 
-    x_art_name.innerHTML = f"<option value='0'>-</option>"
-    x_art_part.innerHTML = f"<option value='0'>-</option>"
+    x_art_name.innerHTML = f"<option value='0' disabled selected>-</option>"
+    x_art_part.innerHTML = f"<option value='0' disabled selected>-</option>"
+    x_art_main.innerHTML = f"<option value='0' disabled selected>-</option>"
 
     for x, y in ARTIFACT_SET.items():
         x_art_name.innerHTML += f"<option value='{x}'>{y}</option>"
@@ -211,7 +212,8 @@ def x_artifact_click(event):
 
 
 def x_art_part_change(event):
-    x_art_main.innerHTML = f"<option value='0'>-</option>"
+    clear_artifact_substat()
+    x_art_main.innerHTML = ""
 
     match int(x_art_part.value):
         case 40:
@@ -237,6 +239,8 @@ def x_art_part_change(event):
             ]
         case 30:
             key = [10002, 10004, 10006, 10008, 13007, 13008, 12009]
+        case _:
+            x_art_main.innerHTML += f"<option value='0'>-</option>"
 
     for x, y in MAIN_STAT.items():
         if x in key:
