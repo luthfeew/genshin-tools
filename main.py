@@ -17,6 +17,7 @@ x_uncensor_ext = Element("x_uncensor_ext").element
 x_uncensor_process = Element("x_uncensor_process").element
 
 view_x_artifact = Element("view_x_artifact").element
+x_art_newgc = Element("x_art_newgc").element
 x_art_name = Element("x_art_name").element
 x_art_part = Element("x_art_part").element
 x_art_main = Element("x_art_main").element
@@ -336,8 +337,6 @@ def x_art_generate_click(event):
             + int(x_art_part.value)
             + (int(x_art_star.value) * 100)
         )
-        + " lv"
-        + str(int(x_art_level.value))
         + " "
         + str(x_art_main.value)
     )
@@ -348,6 +347,11 @@ def x_art_generate_click(event):
             cmd += " " + str(key) + "," + str(value)
         else:
             cmd += " " + str(key)
+
+    if x_art_newgc.checked:
+        cmd = cmd[:11] + " lv" + str(int(x_art_level.value)) + cmd[11:]
+    else:
+        cmd += " " + str(int(x_art_level.value) + 1)
 
     x_art_command.value = cmd
     x_art_command.select()
