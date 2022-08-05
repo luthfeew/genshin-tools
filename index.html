@@ -160,13 +160,8 @@
             </div>
 
             <div class="columns is-centered" id="view_x_artifact">
-                <div class="column is-two-thirds">
+                <div class="column is-two-thirds-desktop is-variable">
                     <div class="box">
-
-                        <div class="notification is-warning is-hidden-desktop">
-                            <button class="delete"></button>
-                            <strong>INFO:</strong> Currently, the display is still not optimal for small screens.
-                        </div>
 
                         <h1 class="title has-text-centered">Artifact Command Generator</h1>
                         <h2 class="subtitle has-text-centered">
@@ -176,7 +171,7 @@
                         <hr>
 
                         <div class="columns is-mobile">
-                            <div class="column is-4 is-offset-8">
+                            <div class="column is-variable is-offset-1-tablet">
                                 <label class="checkbox">
                                     <input type="checkbox" id="x_art_newgc">
                                     GC >= 1.2.3
@@ -186,25 +181,31 @@
 
                         <div class="columns is-vcentered">
                             <div class="column">
-                                <div class="columns is-vcentered mb-0">
-                                    <div class="column has-text-right-tablet"><strong>Artifact</strong></div>
-                                    <div class="column">
+                                <div class="columns is-mobile is-vcentered mb-0">
+                                    <div class="column is-variable is-4-touch has-text-right-tablet">
+                                        <strong>Artifact</strong>
+                                    </div>
+                                    <div class="column is-variable is-8-touch">
                                         <div class="select is-rounded is-loading">
                                             <select id="x_art_name"></select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="columns is-vcentered mb-0">
-                                    <div class="column has-text-right-tablet"><strong>Part</strong></div>
-                                    <div class="column">
+                                <div class="columns is-mobile is-vcentered mb-0">
+                                    <div class="column is-variable is-4-touch has-text-right-tablet">
+                                        <strong>Part</strong>
+                                    </div>
+                                    <div class="column is-variable is-8-touch">
                                         <div class="select is-rounded is-loading">
                                             <select id="x_art_part"></select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="columns is-vcentered">
-                                    <div class="column has-text-right-tablet"><strong>Main Stat</strong></div>
-                                    <div class="column">
+                                <div class="columns is-mobile is-vcentered">
+                                    <div class="column is-variable is-4-touch has-text-right-tablet">
+                                        <strong>Main Stat</strong>
+                                    </div>
+                                    <div class="column is-variable is-8-touch">
                                         <div class="select is-rounded is-loading">
                                             <select id="x_art_main"></select>
                                         </div>
@@ -212,16 +213,16 @@
                                 </div>
                             </div>
                             <div class="column">
-                                <div class="columns is-vcentered mb-0">
+                                <div class="columns is-mobile is-vcentered mb-0">
                                     <div class="column is-4 has-text-right-tablet"><strong>Level</strong></div>
-                                    <div class="column is-4">
+                                    <div class="column is-narrow">
                                         <input class="input is-rounded" type="number" value="20" min="1" max="20"
                                             id="x_art_level">
                                     </div>
                                 </div>
-                                <div class="columns is-vcentered">
+                                <div class="columns is-mobile is-vcentered">
                                     <div class="column is-4 has-text-right-tablet"><strong>Star</strong></div>
-                                    <div class="column is-4">
+                                    <div class="column is-narrow">
                                         <input class="input is-rounded" type="number" value="5" min="4" max="5"
                                             id="x_art_star">
                                     </div>
@@ -231,37 +232,74 @@
 
                         <hr>
 
-                        <div class="columns is-centered is-vcentered mb-0">
-                            <div class="column is-2 has-text-right-tablet"><strong>CRIT Rate</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_cr"></div>
-                            <div class="column is-2 has-text-right-tablet"><strong>CRIT DMG</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_cd"></div>
-                        </div>
-                        <div class="columns is-centered is-vcentered mb-0">
-                            <div class="column is-2 has-text-right-tablet"><strong>Energy Recharge</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_er"></div>
-                            <div class="column is-2 has-text-right-tablet"><strong>Elemental Mastery</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_em"></div>
-                        </div>
-                        <div class="columns is-centered is-vcentered mb-0">
-                            <div class="column is-2 has-text-right-tablet"><strong>ATK %</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_atk"></div>
-                            <div class="column is-2 has-text-right-tablet"><strong>ATK</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_atkf">
+                        <div class="columns is-mobile is-variable is-1-mobile is-centered is-vcentered mb-0">
+                            <div class="column is-variable is-2-tablet has-text-right-tablet">
+                                <strong>CRIT Rate</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_cr">
+                            </div>
+                            <div class="column is-variable is-2-tablet pl-3 has-text-right-tablet">
+                                <strong>CRIT DMG</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_cd">
                             </div>
                         </div>
-                        <div class="columns is-centered is-vcentered mb-0">
-                            <div class="column is-2 has-text-right-tablet"><strong>HP %</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_hp"></div>
-                            <div class="column is-2 has-text-right-tablet"><strong>HP</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_hpf">
+                        <div class="columns is-mobile is-variable is-1-mobile is-centered is-vcentered mb-0">
+                            <div class="column is-variable is-2-tablet has-text-right-tablet">
+                                <strong>Energy Recharge</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_er">
+                            </div>
+                            <div class="column is-variable is-2-tablet pl-3 has-text-right-tablet">
+                                <strong>Elemental Mastery</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_em">
                             </div>
                         </div>
-                        <div class="columns is-centered is-vcentered">
-                            <div class="column is-2 has-text-right-tablet"><strong>DEF %</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_def"></div>
-                            <div class="column is-2 has-text-right-tablet"><strong>DEF</strong></div>
-                            <div class="column is-2"><input class="input is-rounded" type="number" id="x_art_deff">
+                        <div class="columns is-mobile is-variable is-1-mobile is-centered is-vcentered mb-0">
+                            <div class="column is-variable is-2-tablet has-text-right-tablet">
+                                <strong>ATK %</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_atk">
+                            </div>
+                            <div class="column is-variable is-2-tablet pl-3 has-text-right-tablet">
+                                <strong>ATK</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_atkf">
+                            </div>
+                        </div>
+                        <div class="columns is-mobile is-variable is-1-mobile is-centered is-vcentered mb-0">
+                            <div class="column is-variable is-2-tablet has-text-right-tablet">
+                                <strong>HP %</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_hp">
+                            </div>
+                            <div class="column is-variable is-2-tablet pl-3 has-text-right-tablet">
+                                <strong>HP</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_hpf">
+                            </div>
+                        </div>
+                        <div class="columns is-mobile is-variable is-1-mobile is-centered is-vcentered">
+                            <div class="column is-variable is-2-tablet has-text-right-tablet">
+                                <strong>DEF %</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_def">
+                            </div>
+                            <div class="column is-variable is-2-tablet pl-3 has-text-right-tablet">
+                                <strong>DEF</strong>
+                            </div>
+                            <div class="column is-variable is-2-tablet">
+                                <input class="input is-rounded" type="number" id="x_art_deff">
                             </div>
                         </div>
 
