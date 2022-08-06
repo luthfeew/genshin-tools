@@ -241,8 +241,10 @@ def x_art_part_change(event):
         case 30:
             key = [10002, 10004, 10006, 10008, 13007, 13008, 12009]
         case _:
-            x_art_main.innerHTML += f"<option value='0'>-</option>"
+            return
 
+    if len(key) > 1:
+        x_art_main.innerHTML = "<option value='0'>-</option>"
     for x, y in MAIN_STAT.items():
         if x in key:
             x_art_main.innerHTML += f"<option value='{x}'>{y}</option>"
@@ -363,6 +365,7 @@ def x_art_clear_sub_click(event):
 
 
 def x_art_clear_all_click(event):
+    x_art_main.innerHTML = "<option value='0'>-</option>"
     x_art_name.selectedIndex = 0
     x_art_part.selectedIndex = 0
     x_art_main.selectedIndex = 0
