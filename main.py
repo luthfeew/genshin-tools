@@ -3,6 +3,7 @@ import numpy as np
 from pyodide import create_proxy
 from js import document
 from collections import Counter
+from pyodide.http import pyfetch
 
 page_loading = Element("page_loading").element
 
@@ -10,11 +11,17 @@ view_feature = Element("view_feature").element
 view_main = Element("view_main").element
 
 x_uncensor = Element("x_uncensor").element
+x_pstats = Element("x_pstats").element
 x_artifact = Element("x_artifact").element
 
 view_x_uncensor = Element("view_x_uncensor").element
 x_uncensor_ext = Element("x_uncensor_ext").element
 x_uncensor_process = Element("x_uncensor_process").element
+
+view_x_pstats = Element("view_x_pstats").element
+x_pstats_uid = Element("x_pstats_uid").element
+x_pstats_process = Element("x_pstats_process").element
+x_pstats_output = Element("x_pstats_output").element
 
 view_x_artifact = Element("view_x_artifact").element
 x_art_newgc = Element("x_art_newgc").element
@@ -180,6 +187,7 @@ def show_feature():
     x_input.value = ""
     view_x_uncensor.classList.add("is-hidden")
     view_x_artifact.classList.add("is-hidden")
+    view_x_pstats.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -192,6 +200,11 @@ def show_main(id):
 def x_uncensor_click(event):
     show_main(x_uncensor)
     view_x_uncensor.classList.remove("is-hidden")
+
+
+def x_pstats_click(event):
+    show_main(x_pstats)
+    view_x_pstats.classList.remove("is-hidden")
 
 
 def x_artifact_click(event):
@@ -261,6 +274,103 @@ def x_uncensor_process_click(event):
             x_input.value = x_input.value.replace(key, uncensor_dict[key])
     x_input.select()
     document.execCommand("copy")
+
+
+async def x_pstats_process_click(event):
+    x_pstats_process.classList.add("is-loading")
+
+    response = await pyfetch(
+        url="https://matrix0123.herokuapp.com/partial/" + x_pstats_uid.value.strip(),
+        method="GET",
+    )
+    response2 = await pyfetch(
+        url="https://matrix0123.herokuapp.com/abyss/" + x_pstats_uid.value.strip(),
+        method="GET",
+    )
+
+    x = await response.json()
+    y = await response2.json()
+
+    if x["data"]:
+        uid = x["uid"]
+        info = x["data"]["info"]
+        stats = x["data"]["stats"]
+        abyss = y["data"]
+        most_played = abyss["ranks"]["most_played"]
+        floors = abyss["floors"]
+
+        out = ""
+        out += f"""
+        <p class='title is-4 has-text-centered'>{info['nickname']}</p>
+        <p class='subtitle is-6 has-text-centered'>{uid}<br>AR {info['level']} ~ {info['server'][3:]}</p>
+        <hr>
+        """
+
+        out += "<table class='is-size-6'><tbody>"
+        for key in stats:
+            out += f"""
+            <tr>
+                <td>{key.replace('_', ' ')}</td>
+                <td class='pl-1'>: {stats[key]}</td>
+            </tr>
+            """
+        out += "</tbody></table><hr>"
+
+        if abyss["unlocked"] == True:
+            out += "<table class='is-size-6'><tbody>"
+            for key in abyss:
+                if key != "ranks" and key != "floors":
+                    out += f"""
+                    <tr>
+                        <td>{key.replace('_', ' ')}</td>
+                        <td class='pl-1'>: {abyss[key]}</td>
+                    </tr>
+                    """
+            out += "</tbody></table>"
+
+            out += """
+            <table class='table is-bordered is-size-6 mt-5'>
+                <thead>
+                    <tr><th colspan='4' style='text-align: center;'>Most Played</th></tr>
+                </thead>
+            <tbody><tr>"""
+            for x in most_played:
+                out += f"""
+                <td>{x['name']}</td>
+                """
+            out += "</tr></tbody></table>"
+
+            out += """
+            <table class='table is-bordered has-text-centered is-size-6'>
+                <thead>
+                    <tr><th colspan='4' style='text-align: center;'>Spiral Abyss Stars</th></tr>
+                    <tr>
+                        <th>Floor 9</th>
+                        <th>Floor 10</th>
+                        <th>Floor 11</th>
+                        <th>Floor 12</th>
+                    </tr>
+                </thead>
+            <tbody><tr>"""
+            for x in floors:
+                out += f"""
+                <td>{x['stars']} <i class="fa-solid fa-star"></i></td>
+                """
+            out += "</tr></tbody></table>"
+            x_pstats_output.classList.add("is-capitalized")
+
+    else:
+        out = """
+        <article class="message is-warning">
+            <div class="message-body">
+                User not found or data is not public.
+            </div>
+        </article>
+        """
+        x_pstats_output.classList.remove("is-capitalized")
+
+    x_pstats_output.innerHTML = out
+    x_pstats_process.classList.remove("is-loading")
 
 
 def find_nearest(array, value, command):
@@ -393,6 +503,8 @@ def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
     x_uncensor.addEventListener("click", create_proxy(x_uncensor_click))
     x_uncensor_process.addEventListener("click", create_proxy(x_uncensor_process_click))
+    x_pstats.addEventListener("click", create_proxy(x_pstats_click))
+    x_pstats_process.addEventListener("click", create_proxy(x_pstats_process_click))
     x_artifact.addEventListener("click", create_proxy(x_artifact_click))
     x_art_generate.addEventListener("click", create_proxy(x_art_generate_click))
     x_art_clear_sub.addEventListener("click", create_proxy(x_art_clear_sub_click))
