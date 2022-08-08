@@ -291,8 +291,18 @@ def x_uncensor_process_click(event):
     document.execCommand("copy")
 
 
+def x_stat_invalid():
+    x_stat_result.classList.add("is-hidden")
+    x_stat_error.classList.remove("is-hidden")
+    x_stat_process.classList.remove("is-loading")
+
+
 async def x_stat_process_click(event):
     x_stat_process.classList.add("is-loading")
+
+    if x_stat_uid.value == "":
+        x_stat_invalid()
+        return
 
     try:
         res = await pyfetch(
@@ -302,10 +312,9 @@ async def x_stat_process_click(event):
 
         raw = await res.json()
         if not raw["data"]:
-            x_stat_result.classList.add("is-hidden")
-            x_stat_error.classList.remove("is-hidden")
-            x_stat_process.classList.remove("is-loading")
+            x_stat_invalid()
             return
+
         x_stat_result.classList.remove("is-hidden")
         x_stat_error.classList.add("is-hidden")
 
@@ -449,6 +458,21 @@ async def x_stat_process_click(event):
 
         x_stat_characters.innerHTML = ""
         for x in characters:
+
+            temp_artifact = []
+            for artifacts in x["artifacts"]:
+                temp_artifact.append(artifacts["set"]["name"])
+            count = Counter(temp_artifact)
+            artifact_set = ""
+            for key, value in count.items():
+                artifact_set += f"{key} x{value}<br>"
+
+            if x["outfits"]:
+                for outfit in x["outfits"]:
+                    outfit_name = outfit["name"]
+            else:
+                outfit_name = "-"
+
             x_stat_characters.innerHTML += f"""
             <tr><td class="pt-3" colspan="2"><strong>{x["name"]}</strong></td></tr>
             <tr>
@@ -473,6 +497,14 @@ async def x_stat_process_click(event):
                         <tr>
                             <td>Constellation</td>
                             <td>{x["constellation"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Artifacts</td>
+                            <td>{artifact_set}</td>
+                        </tr>
+                        <tr>
+                            <td>Outfits</td>
+                            <td>{outfit_name}</td>
                         </tr>
                     </table>
                 </td>
