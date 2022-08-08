@@ -61,7 +61,7 @@
                     </span>
                     <span>Uncensor</span>
                 </button>
-                <button class="button is-rounded" id="x_pstats">
+                <button class="button is-rounded" id="x_stats">
                     <span class="icon">
                         <i class="fa-solid fa-circle-info"></i>
                     </span>
@@ -165,38 +165,113 @@
                 </div>
             </div>
 
-            <div class="columns is-centered" id="view_x_pstats">
-                <div class="column is-half">
-                    <div class="box">
-
-                        <article class="message is-info">
-                            <div class="message-body">
-                                This feature is still in development, but it should be usable.
+            <div id="view_x_stats">
+                <div class="columns is-mobile is-centered">
+                    <div class="column is-half">
+                        <div class="box">
+                            <h4 class="title is-4 has-text-centered">Player Stats</h4>
+                            <h2 class="subtitle has-text-centered">Fetch data from Hoyolab using Genshin UID</h2>
+                            <div class="field has-addons has-addons-centered">
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" placeholder="Enter UID..."
+                                        id="x_stat_uid">
+                                </div>
+                                <div class="control">
+                                    <a class="button is-rounded is-link is-light" id="x_stat_process">
+                                        <span>
+                                            <i class="fa-solid fa-angles-right"></i>
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
-                        </article>
-
-                        <!-- <h1 class="title has-text-centered">Player Stats</h1>
-                        <h2 class="subtitle has-text-centered">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        </h2> -->
-
-                        <div class="field has-addons has-addons-centered">
-                            <div class="control">
-                                <input class="input is-rounded" type="text" placeholder="Enter UID..."
-                                    id="x_pstats_uid">
-                            </div>
-                            <div class="control">
-                                <a class="button is-rounded is-link is-light" id="x_pstats_process">
-                                    <span class="icon is-small">
-                                        <i class="fa-solid fa-angle-right"></i>
-                                    </span>
-                                </a>
-                            </div>
+                            <article class="message is-warning is-hidden" id="x_stat_error">
+                                <div class="message-body">
+                                    User not found or their data is private.
+                                </div>
+                            </article>
                         </div>
+                    </div>
+                </div>
+                <div class="box is-hidden" id="x_stat_result">
+                    <div id="x_stat_info"></div>
+                    <hr>
+                    <div class="columns is-mobile is-multiline is-centered">
+                        <div class="column is-narrow table-container">
+                            <h4 class="title is-4 mb-2">Stats</h4>
+                            <table class="table is-narrow is-bordered is-capitalized" id="x_stat_stats"></table>
+                        </div>
+                        <div class="column is-narrow table-container">
+                            <h4 class="title is-4 mb-2">Spiral Abyss</h4>
+                            <table class="table is-narrow is-bordered is-capitalized" id="x_stat_abyss"></table>
 
-                        <hr>
+                            <table class="table is-narrow is-bordered is-capitalized">
+                                <tr id="x_stat_abyss_ranks"></tr>
+                                <tr>
+                                    <td>
+                                        <table id="x_stat_abyss_ranks_mp"></table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr id="x_stat_abyss_ranks_mk"></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr id="x_stat_abyss_ranks_ss"></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr id="x_stat_abyss_ranks_mdt"></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr id="x_stat_abyss_ranks_mbu"></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr id="x_stat_abyss_ranks_msu"></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
 
-                        <div id="x_pstats_output"></div>
-
+                            <table class="table is-narrow is-bordered is-capitalized">
+                                <tr>
+                                    <td>Floors</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>Floor 9</td>
+                                                <td>Floor 10</td>
+                                                <td>Floor 11</td>
+                                                <td>Floor 12</td>
+                                            </tr>
+                                            <tr id="x_stat_abyss_floors"></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="column is-narrow table-container">
+                            <h4 class="title is-4 mb-2">Exploration</h4>
+                            <table class="table is-narrow is-bordered is-capitalized">
+                                <tr id="x_stat_exploration_name"></tr>
+                                <tr id="x_stat_exploration_info"></tr>
+                            </table>
+                        </div>
+                        <div class="column is-narrow table-container">
+                            <h4 class="title is-4 mb-2">Teapot</h4>
+                            <table class="table is-narrow is-bordered is-capitalized" id="x_stat_teapot"></table>
+                        </div>
+                        <div class="column is-narrow table-container">
+                            <h4 class="title is-4 mb-2">Characters</h4>
+                            <table class="table is-narrow is-bordered is-capitalized" id="x_stat_characters"></table>
+                        </div>
                     </div>
                 </div>
             </div>

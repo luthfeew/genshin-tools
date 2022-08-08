@@ -1,7 +1,7 @@
 import math
 import numpy as np
 from pyodide import create_proxy
-from js import document
+from js import document, console
 from collections import Counter
 from pyodide.http import pyfetch
 
@@ -11,17 +11,33 @@ view_feature = Element("view_feature").element
 view_main = Element("view_main").element
 
 x_uncensor = Element("x_uncensor").element
-x_pstats = Element("x_pstats").element
+x_stats = Element("x_stats").element
 x_artifact = Element("x_artifact").element
 
 view_x_uncensor = Element("view_x_uncensor").element
 x_uncensor_ext = Element("x_uncensor_ext").element
 x_uncensor_process = Element("x_uncensor_process").element
 
-view_x_pstats = Element("view_x_pstats").element
-x_pstats_uid = Element("x_pstats_uid").element
-x_pstats_process = Element("x_pstats_process").element
-x_pstats_output = Element("x_pstats_output").element
+view_x_stats = Element("view_x_stats").element
+x_stat_uid = Element("x_stat_uid").element
+x_stat_process = Element("x_stat_process").element
+x_stat_info = Element("x_stat_info").element
+x_stat_stats = Element("x_stat_stats").element
+x_stat_exploration_name = Element("x_stat_exploration_name").element
+x_stat_exploration_info = Element("x_stat_exploration_info").element
+x_stat_teapot = Element("x_stat_teapot").element
+x_stat_abyss = Element("x_stat_abyss").element
+x_stat_abyss_ranks = Element("x_stat_abyss_ranks").element
+x_stat_abyss_ranks_mp = Element("x_stat_abyss_ranks_mp").element
+x_stat_abyss_ranks_mk = Element("x_stat_abyss_ranks_mk").element
+x_stat_abyss_ranks_ss = Element("x_stat_abyss_ranks_ss").element
+x_stat_abyss_ranks_mdt = Element("x_stat_abyss_ranks_mdt").element
+x_stat_abyss_ranks_mbu = Element("x_stat_abyss_ranks_mbu").element
+x_stat_abyss_ranks_msu = Element("x_stat_abyss_ranks_msu").element
+x_stat_abyss_floors = Element("x_stat_abyss_floors").element
+x_stat_characters = Element("x_stat_characters").element
+x_stat_result = Element("x_stat_result").element
+x_stat_error = Element("x_stat_error").element
 
 view_x_artifact = Element("view_x_artifact").element
 x_art_newgc = Element("x_art_newgc").element
@@ -77,7 +93,6 @@ uncensor_dict_ext = {
     "x": "х",
     "V": "Ѵ",
     "v": "ѵ",
-    # experimental
     "u": "υ",
 }
 
@@ -187,7 +202,7 @@ def show_feature():
     x_input.value = ""
     view_x_uncensor.classList.add("is-hidden")
     view_x_artifact.classList.add("is-hidden")
-    view_x_pstats.classList.add("is-hidden")
+    view_x_stats.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -202,9 +217,9 @@ def x_uncensor_click(event):
     view_x_uncensor.classList.remove("is-hidden")
 
 
-def x_pstats_click(event):
-    show_main(x_pstats)
-    view_x_pstats.classList.remove("is-hidden")
+def x_stats_click(event):
+    show_main(x_stats)
+    view_x_stats.classList.remove("is-hidden")
 
 
 def x_artifact_click(event):
@@ -276,101 +291,219 @@ def x_uncensor_process_click(event):
     document.execCommand("copy")
 
 
-async def x_pstats_process_click(event):
-    x_pstats_process.classList.add("is-loading")
+async def x_stat_process_click(event):
+    x_stat_process.classList.add("is-loading")
 
-    response = await pyfetch(
-        url="https://matrix0123.herokuapp.com/partial/" + x_pstats_uid.value.strip(),
-        method="GET",
-    )
-    response2 = await pyfetch(
-        url="https://matrix0123.herokuapp.com/abyss/" + x_pstats_uid.value.strip(),
-        method="GET",
-    )
+    try:
+        res = await pyfetch(
+            url="https://matrix0123.herokuapp.com/full/" + x_stat_uid.value.strip(),
+            method="GET",
+        )
 
-    x = await response.json()
-    y = await response2.json()
+        raw = await res.json()
+        if not raw["data"]:
+            x_stat_result.classList.add("is-hidden")
+            x_stat_error.classList.remove("is-hidden")
+            x_stat_process.classList.remove("is-loading")
+            return
+        x_stat_result.classList.remove("is-hidden")
+        x_stat_error.classList.add("is-hidden")
 
-    if x["data"]:
-        uid = x["uid"]
-        info = x["data"]["info"]
-        stats = x["data"]["stats"]
-        abyss = y["data"]
-        most_played = abyss["ranks"]["most_played"]
-        floors = abyss["floors"]
+        info = raw["data"]["info"]
+        stats = raw["data"]["stats"]
+        explorations = raw["data"]["explorations"]
+        teapot = raw["data"]["teapot"]
+        abyss = (
+            raw["data"]["abyss"]["current"]
+            if raw["data"]["abyss"]["current"]["floors"]
+            else raw["data"]["abyss"]["previous"]
+        )
+        characters = raw["data"]["characters"]
 
-        out = ""
-        out += f"""
-        <p class='title is-4 has-text-centered'>{info['nickname']}</p>
-        <p class='subtitle is-6 has-text-centered'>{uid}<br>AR {info['level']} ~ {info['server'][3:]}</p>
-        <hr>
+        x_stat_info.innerHTML = f"""
+        <h1 class="title has-text-centered">{info["nickname"]}</h1>
+        <h2 class="subtitle has-text-centered is-capitalized">
+            <p>{raw["uid"]}<br>AR {info["level"]} ~ {info['server'][3:]}</p>
+        </h2>
         """
 
-        out += "<table class='is-size-6'><tbody>"
-        for key in stats:
-            out += f"""
+        x_stat_stats.innerHTML = ""
+        for x in stats:
+            x_stat_stats.innerHTML += f"""
             <tr>
-                <td>{key.replace('_', ' ')}</td>
-                <td class='pl-1'>: {stats[key]}</td>
+                <td>{x.replace("_", " ")}</td>
+                <td>{stats[x]}</td>
             </tr>
             """
-        out += "</tbody></table><hr>"
 
-        if abyss["unlocked"] == True:
-            out += "<table class='is-size-6'><tbody>"
-            for key in abyss:
-                if key != "ranks" and key != "floors":
-                    out += f"""
+        x_stat_exploration_name.innerHTML = ""
+        x_stat_exploration_info.innerHTML = ""
+        for x in explorations:
+            x_stat_exploration_name.innerHTML += f"""
+            <td>{x["name"]}</td>
+            """
+            x_stat_exploration_info.innerHTML += f"""
+            <td>
+                <table>
                     <tr>
-                        <td>{key.replace('_', ' ')}</td>
-                        <td class='pl-1'>: {abyss[key]}</td>
+                        <td>Explored</td>
+                        <td>{x["explored"]}%</td>
                     </tr>
-                    """
-            out += "</tbody></table>"
-
-            out += """
-            <table class='table is-bordered is-size-6 mt-5'>
-                <thead>
-                    <tr><th colspan='4' style='text-align: center;'>Most Played</th></tr>
-                </thead>
-            <tbody><tr>"""
-            for x in most_played:
-                out += f"""
-                <td>{x['name']}</td>
-                """
-            out += "</tr></tbody></table>"
-
-            out += """
-            <table class='table is-bordered has-text-centered is-size-6'>
-                <thead>
-                    <tr><th colspan='4' style='text-align: center;'>Spiral Abyss Stars</th></tr>
                     <tr>
-                        <th>Floor 9</th>
-                        <th>Floor 10</th>
-                        <th>Floor 11</th>
-                        <th>Floor 12</th>
+                        <td>{x["type"]}</td>
+                        <td>{x["level"]}</td>
                     </tr>
-                </thead>
-            <tbody><tr>"""
-            for x in floors:
-                out += f"""
-                <td>{x['stars']} <i class="fa-solid fa-star"></i></td>
+                </table>
+            </td>
+            """
+
+        x_stat_teapot.innerHTML = ""
+        for x in teapot:
+            if x != "realms" and x != "comfort_icon":
+                x_stat_teapot.innerHTML += f"""
+                <tr>
+                    <td>{x.replace("_", " ")}</td>
+                    <td>{teapot[x]}</td>
+                </tr>
                 """
-            out += "</tr></tbody></table>"
-            x_pstats_output.classList.add("is-capitalized")
 
-    else:
-        out = """
-        <article class="message is-warning">
-            <div class="message-body">
-                User not found or data is not public.
-            </div>
-        </article>
-        """
-        x_pstats_output.classList.remove("is-capitalized")
+        x_stat_abyss.innerHTML = ""
+        for x in abyss:
+            if x != "ranks" and x != "floors":
+                x_stat_abyss.innerHTML += f"""
+                <tr>
+                    <td>{x.replace("_", " ")}</td>
+                    <td>{abyss[x]}</td>
+                </tr>
+                """
 
-    x_pstats_output.innerHTML = out
-    x_pstats_process.classList.remove("is-loading")
+        x_stat_abyss_ranks.innerHTML = ""
+        for x in abyss["ranks"]:
+            x_stat_abyss_ranks.innerHTML += f"""
+            <td>{x.replace("_", " ")}</td>
+            """
+
+        x_stat_abyss_ranks_mp.innerHTML = ""
+        for x in abyss["ranks"]["most_played"]:
+            x_stat_abyss_ranks_mp.innerHTML += f"""
+            <tr>
+                <td>{x["name"]}</td>
+                <td>{x["value"]}</td>
+            </tr>
+            """
+
+        x_stat_abyss_ranks_mk.innerHTML = ""
+        for x in abyss["ranks"]["most_kills"]:
+            x_stat_abyss_ranks_mk.innerHTML += f"""
+            <tr>
+                <td>{x["name"]}</td>
+                <td>{x["value"]}</td>
+            </tr>
+            """
+
+        x_stat_abyss_ranks_ss.innerHTML = ""
+        for x in abyss["ranks"]["strongest_strike"]:
+            x_stat_abyss_ranks_ss.innerHTML += f"""
+            <tr>
+                <td>{x["name"]}</td>
+                <td>{x["value"]}</td>
+            </tr>
+            """
+
+        x_stat_abyss_ranks_mdt.innerHTML = ""
+        for x in abyss["ranks"]["most_damage_taken"]:
+            x_stat_abyss_ranks_mdt.innerHTML += f"""
+            <tr>
+                <td>{x["name"]}</td>
+                <td>{x["value"]}</td>
+            </tr>
+            """
+
+        x_stat_abyss_ranks_mbu.innerHTML = ""
+        for x in abyss["ranks"]["most_bursts_used"]:
+            x_stat_abyss_ranks_mbu.innerHTML += f"""
+            <tr>
+                <td>{x["name"]}</td>
+                <td>{x["value"]}</td>
+            </tr>
+            """
+
+        x_stat_abyss_ranks_msu.innerHTML = ""
+        for x in abyss["ranks"]["most_skills_used"]:
+            x_stat_abyss_ranks_msu.innerHTML += f"""
+            <tr>
+                <td>{x["name"]}</td>
+                <td>{x["value"]}</td>
+            </tr>
+            """
+
+        x_stat_abyss_floors.innerHTML = ""
+        for x in abyss["floors"]:
+            x_stat_abyss_floors.innerHTML += f"""
+            <td>{x["stars"]} <i class="fa-solid fa-star"></i></td>
+            """
+        for x in range(4 - len(abyss["floors"])):
+            x_stat_abyss_floors.innerHTML += f"""
+            <td>0 <i class="fa-solid fa-star"></i></td>
+            """
+
+        x_stat_characters.innerHTML = ""
+        for x in characters:
+            x_stat_characters.innerHTML += f"""
+            <tr><td class="pt-3" colspan="2"><strong>{x["name"]}</strong></td></tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Rarity</td>
+                            <td>{x["rarity"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Element</td>
+                            <td>{x["element"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Level</td>
+                            <td>{x["level"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Friendship</td>
+                            <td>{x["friendship"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Constellation</td>
+                            <td>{x["constellation"]}</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Weapon</td>
+                            <td>{x["weapon"]["name"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Rarity</td>
+                            <td>{x["weapon"]["rarity"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Level</td>
+                            <td>{x["weapon"]["level"]}</td>
+                        </tr>
+                        <tr>
+                            <td>Refinement</td>
+                            <td>{x["weapon"]["refinement"]}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            """
+
+    except Exception as e:
+        console.log(e)
+        x_stat_process.classList.remove("is-loading")
+
+    x_stat_process.classList.remove("is-loading")
 
 
 def find_nearest(array, value, command):
@@ -501,15 +634,19 @@ def clear_artifact_substat():
 
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
+
     x_uncensor.addEventListener("click", create_proxy(x_uncensor_click))
     x_uncensor_process.addEventListener("click", create_proxy(x_uncensor_process_click))
-    x_pstats.addEventListener("click", create_proxy(x_pstats_click))
-    x_pstats_process.addEventListener("click", create_proxy(x_pstats_process_click))
+
+    x_stats.addEventListener("click", create_proxy(x_stats_click))
+    x_stat_process.addEventListener("click", create_proxy(x_stat_process_click))
+
     x_artifact.addEventListener("click", create_proxy(x_artifact_click))
     x_art_generate.addEventListener("click", create_proxy(x_art_generate_click))
     x_art_clear_sub.addEventListener("click", create_proxy(x_art_clear_sub_click))
     x_art_clear_all.addEventListener("click", create_proxy(x_art_clear_all_click))
     x_art_part.addEventListener("change", create_proxy(x_art_part_change))
+
     loading_done()
 
 
