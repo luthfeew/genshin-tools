@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import asyncio
 from pyodide import create_proxy
 from js import document, console
 from collections import Counter
@@ -38,6 +39,7 @@ x_stat_abyss_floors = Element("x_stat_abyss_floors").element
 x_stat_characters = Element("x_stat_characters").element
 x_stat_result = Element("x_stat_result").element
 x_stat_error = Element("x_stat_error").element
+x_stat_error_detail = Element("x_stat_error_detail").element
 
 view_x_artifact = Element("view_x_artifact").element
 x_art_newgc = Element("x_art_newgc").element
@@ -310,9 +312,13 @@ async def x_stat_process_click(event):
             method="GET",
         )
 
+        console.log(res.status)
+
         raw = await res.json()
+        await asyncio.sleep(1)
         if not raw["data"]:
             x_stat_invalid()
+            x_stat_error_detail.innerHTML = f"User {x_stat_uid.value.strip()} not found or their Hoyolab data is private."
             return
 
         x_stat_result.classList.remove("is-hidden")
@@ -474,7 +480,7 @@ async def x_stat_process_click(event):
                 outfit_name = "-"
 
             x_stat_characters.innerHTML += f"""
-            <tr><td class="pt-3" colspan="2"><strong>{x["name"]}</strong></td></tr>
+            <tr><td class="is-size-5 pt-3" colspan="2"><strong>{x["name"]}</strong></td></tr>
             <tr>
                 <td>
                     <table>
@@ -503,7 +509,7 @@ async def x_stat_process_click(event):
                             <td>{artifact_set}</td>
                         </tr>
                         <tr>
-                            <td>Outfits</td>
+                            <td>Outfit</td>
                             <td>{outfit_name}</td>
                         </tr>
                     </table>
@@ -533,7 +539,6 @@ async def x_stat_process_click(event):
 
     except Exception as e:
         console.log(e)
-        x_stat_process.classList.remove("is-loading")
 
     x_stat_process.classList.remove("is-loading")
 
