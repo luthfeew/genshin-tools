@@ -1,6 +1,5 @@
 import math
 import numpy as np
-import asyncio
 from pyodide import create_proxy
 from js import document, console
 from collections import Counter
@@ -308,17 +307,15 @@ async def x_stat_process_click(event):
 
     try:
         res = await pyfetch(
-            url="https://matrix0123.herokuapp.com/full/" + x_stat_uid.value.strip(),
-            method="GET",
+            url="https://vz3f4k.deta.dev/full/" + x_stat_uid.value.strip(), method="GET"
         )
 
-        console.log(res.status)
-
         raw = await res.json()
-        await asyncio.sleep(1)
         if not raw["data"]:
             x_stat_invalid()
-            x_stat_error_detail.innerHTML = f"User {x_stat_uid.value.strip()} not found or their Hoyolab data is private."
+            x_stat_error_detail.innerHTML = f"""
+            User {x_stat_uid.value.strip()} not found or their Hoyolab data is private.
+            """
             return
 
         x_stat_result.classList.remove("is-hidden")
