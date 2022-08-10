@@ -301,8 +301,11 @@ def x_stat_invalid():
 async def x_stat_process_click(event):
     x_stat_process.classList.add("is-loading")
 
-    if x_stat_uid.value == "":
+    if x_stat_uid.value == "" or len(x_stat_uid.value) != 9:
         x_stat_invalid()
+        x_stat_error_detail.innerHTML = f"""
+        UID must be 9 digits.
+        """
         return
 
     try:
@@ -314,7 +317,7 @@ async def x_stat_process_click(event):
         if not raw["data"]:
             x_stat_invalid()
             x_stat_error_detail.innerHTML = f"""
-            User {x_stat_uid.value.strip()} not found or their Hoyolab data is private.
+            User {x_stat_uid.value.strip()} not found or their HoYoLAB data is not public.
             """
             return
 
