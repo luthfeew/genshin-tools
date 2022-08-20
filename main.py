@@ -312,8 +312,14 @@ async def x_stat_process_click(event):
         res = await pyfetch(
             url="https://vz3f4k.deta.dev/full/" + x_stat_uid.value.strip(), method="GET"
         )
-
         raw = await res.json()
+
+    except Exception as e:
+        console.log(e)
+        x_stat_invalid()
+        x_stat_error_detail.innerHTML = f"{e}"
+
+    else:
         if not raw["data"]:
             x_stat_invalid()
             x_stat_error_detail.innerHTML = f"""
@@ -537,10 +543,8 @@ async def x_stat_process_click(event):
             </tr>
             """
 
-    except Exception as e:
-        console.log(e)
-
-    x_stat_process.classList.remove("is-loading")
+    finally:
+        x_stat_process.classList.remove("is-loading")
 
 
 def find_nearest(array, value, command):
