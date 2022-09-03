@@ -118,6 +118,8 @@ FLAT_ATK_CMD = [501054, 501053, 501052, 501051]
 FLAT_HP_CMD = [501024, 501023, 501022, 501021]
 FLAT_DEF_CMD = [501084, 501083, 501082, 501081]
 ARTIFACT_SET = {
+    20004: "Deepwood Memories",
+    21004: "Gilded Dreams",
     75004: "Gladiator's Finale",
     77004: "Wanderer's Troupe",
     81004: "Noblesse Oblige",
